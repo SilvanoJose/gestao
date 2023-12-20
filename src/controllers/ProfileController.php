@@ -5,7 +5,7 @@ use \core\Controller;
 use \src\handlers\UserHandler;
 use \src\handlers\PostHandler;
 
-class HomeController extends Controller {
+class ProfileController extends Controller {
 
     private $loggedUser;
     
@@ -23,17 +23,19 @@ class HomeController extends Controller {
 
     }
 
-    public function index() {
+    public function index($atts = []){
+        if(!empty($atts['id'])){
+            $id = $atts['id'];
 
-        $page = intval(filter_input(INPUT_GET, 'page'));
+        }else{
+            $id = $this->loggedUser->id;
+        }
 
-        $feed = PostHandler::getHomeFeed($this->loggedUser->id, $page);
+        echo "ID: ".$id;
 
-        $this->render('home', [
-            'loggedUser' => $this->loggedUser,
-            'feed' => $feed
+        $this->render('profile', [
+            'loggedUser' => $this->loggedUser
         ]);
-    }
 
-
+    }  
 }

@@ -40,6 +40,11 @@ class PostHandler {
             ->page($page, $perPage)
         ->get();
 
+        $total = Post::select()
+            ->where('id_user', 'in', $users)
+        ->count();
+        $pageCount = ceil($total / $perPage);        
+
         // 3. transformar o resultado em objetos dos models
         $posts = [];
         foreach($postList as $postItem){
@@ -69,7 +74,7 @@ class PostHandler {
 
         }        
 
-        return $posts;
+        return ['posts' => $posts, 'pageCount' => $pageCount, 'currentPage' => $page];
     }
 
 }
