@@ -24,17 +24,24 @@ class ProfileController extends Controller {
     }
 
     public function index($atts = []){
+        $id = $this->loggedUser->id;
+
         if(!empty($atts['id'])){
             $id = $atts['id'];
 
-        }else{
-            $id = $this->loggedUser->id;
         }
 
-        echo "ID: ".$id;
+        $user = UserHandler::getUser($id);
+
+        if(!$user){
+
+            $this->redirect('/');
+
+        }
 
         $this->render('profile', [
-            'loggedUser' => $this->loggedUser
+            'loggedUser' => $this->loggedUser,
+            'user' => $user
         ]);
 
     }  

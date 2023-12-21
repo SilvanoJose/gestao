@@ -55,7 +55,7 @@ class UserHandler {
     }
 
 
-    public function getUser($id) {
+    public static function getUser($id) {
        
         $data = User::select()->where('id', $id)->one();
 
